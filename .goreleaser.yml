@@ -16,95 +16,41 @@ builds:
     goos:
       - windows
       - linux
-      - darwin
     goarch:
-      - 386
       - amd64
-      - arm
       - arm64
-    goarm:
-      - 5
-      - 6
-      - 7
     ignore:
-      - goos: darwin
-        goarch: 386
       - goos: windows
         goarch: arm
       - goos: windows
         goarch: arm64
     hooks:
       post: upx -9 "{{ .Path }}"
-  - main: ./main.go
-    id: speedtest-backend-freebsd
-    binary: speedtest-backend
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - -w -s
-    goos:
-      - freebsd
-    goarch:
-      - 386
-      - amd64
-      - arm
-      - arm64
-      - mips
-      - mipsle
-    goarm:
-      - 5
-      - 6
-      - 7
-    gomips:
-      - hardfloat
-      - softfloat
-  - main: ./main.go
-    id: speedtest-backend-noupx-linux
-    binary: speedtest-backend
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - -w -s
-    goos:
-      - linux
-    goarch:
-      - mips
-      - mipsle
-      - mips64
-      - mips64le
-    gomips:
-      - hardfloat
-      - softfloat
-  - main: ./main.go
-    id: speedtest-backend-noupx-windows-arm64
-    binary: speedtest-backend
-    env:
-      - CGO_ENABLED=0
-    flags:
-      - -trimpath
-    ldflags:
-      - -w -s
-    goos:
-      - windows
-    goarch:
-      - arm
-      - arm64
-    goarm:
-      - 5
-      - 6
-      - 7
 archives:
-  - format_overrides:
+  - id: multithread
+    format_overrides:
       - goos: windows
         format: zip
+    name_template: "{{ .ProjectName }}-multithread_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
     files:
       - README.md
       - LICENSE
       - settings.toml
+      - src: web/assets
+        dst: assets
+        strip_parent: true
+  - id: singlethread
+    format_overrides:
+      - goos: windows
+        format: zip
+    name_template: "{{ .ProjectName }}-singlethread_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    files:
+      - README.md
+      - LICENSE
+      - settings.toml
+      - src: web/assets_singlethread
+        dst: assets
+        strip_parent: true
 checksum:
   name_template: 'checksums.txt'
 changelog:
@@ -112,6 +58,6 @@ changelog:
   sort: asc
 release:
   github:
-    owner: librespeed
+    owner: xsm1997
     name: speedtest-go
   disable: false

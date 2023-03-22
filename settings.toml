@@ -16,13 +16,13 @@ ipinfo_api_key=""
 assets_path=""
 
 # password for logging into statistics page
-statistics_password="PASSWORD"
+statistics_password=""
 # redact IP addresses
-redact_ip_addresses=false
+redact_ip_addresses=true
 
 # database type for statistics data, currently supports: none, memory, bolt, mysql, postgresql
 # if none is specified, no telemetry/stats will be recorded, and no result PNG will be generated
-database_type="memory"
+database_type="bolt"
 database_hostname=""
 database_name=""
 database_username=""
