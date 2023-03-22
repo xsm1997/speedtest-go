@@ -13,7 +13,7 @@ server_lng=1
 ipinfo_api_key=""
 
 # assets directory path, defaults to `assets` in the same directory
-assets_path=""
+assets_path="assets"
 
 # password for logging into statistics page
 statistics_password=""
